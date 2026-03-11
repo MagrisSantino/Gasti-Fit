@@ -1,356 +1,429 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  ShieldHalf,
-  GraduationCap,
-  BookOpen,
   Smartphone,
   Target,
   Activity,
-  Instagram,
   Mail,
-  MessageCircle,
+  Phone,
+  Instagram,
 } from "lucide-react";
-
-const DOT_PATTERN =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=";
-
-function handleCardMouseMove(
-  e: React.MouseEvent<HTMLDivElement>,
-  el: HTMLDivElement
-) {
-  const rect = el.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  el.style.setProperty("--mouse-x", `${x}px`);
-  el.style.setProperty("--mouse-y", `${y}px`);
-}
+import { ReactLenis } from "lenis/react";
+import { AuraPageWrapper } from "@/components/aura-page-wrapper";
 
 export default function Home() {
-  const cursorDotRef = useRef<HTMLDivElement>(null);
-  const cursorGlowRef = useRef<HTMLDivElement>(null);
-
-  // Cursor personalizado: seguir el mouse en desktop
-  useEffect(() => {
-    const cursorDot = cursorDotRef.current;
-    const cursorGlow = cursorGlowRef.current;
-    if (!cursorDot || !cursorGlow) return;
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (typeof window !== "undefined" && window.innerWidth >= 768) {
-        const t = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-        cursorDot.style.transform = t;
-        cursorGlow.style.transform = t;
-      }
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, []);
-
-  // Intersection Observer: reveal al hacer scroll
-  useEffect(() => {
-    const observerOptions: IntersectionObserverInit = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.15,
-    };
-
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove("opacity-0", "translate-y-12");
-          entry.target.classList.add("opacity-100", "translate-y-0");
-          obs.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    const elements = document.querySelectorAll(".reveal-scroll");
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#050505] text-white antialiased selection:bg-white/20 selection:text-white md:cursor-none [font-family:var(--font-plus-jakarta),sans-serif]">
-      {/* Patrón de puntos de fondo */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 bg-[length:20px_20px] [mask-image:linear-gradient(to_bottom,white_20%,transparent_80%)]"
-        style={{ backgroundImage: `url('${DOT_PATTERN}')` }}
-      />
-
-      {/* Cursor personalizado */}
-      <div
-        ref={cursorDotRef}
-        className="fixed left-0 top-0 z-[100] hidden h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white mix-blend-difference pointer-events-none transition-transform duration-75 ease-out md:block"
-        aria-hidden
-      />
-      <div
-        ref={cursorGlowRef}
-        className="fixed left-0 top-0 z-0 hidden h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-[80px] pointer-events-none transition-transform duration-500 ease-out md:block"
-        aria-hidden
-      />
-
-      {/* Hero */}
-      <main className="relative z-10 mx-auto grid w-full min-h-[90vh] max-w-7xl grid-cols-1 items-center gap-16 px-6 pt-32 pb-24 lg:grid-cols-12 md:pt-40 md:pb-32">
-        <div className="reveal-scroll flex flex-col items-start space-y-10 text-left opacity-0 translate-y-12 transition-all duration-1000 ease-out lg:col-span-7">
-          <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-[#00e5ff] animate-pulse" />
-            <span className="text-lg font-normal text-white/80">
-              Entrenamiento Presencial y Virtual
-            </span>
-          </div>
-
-          <h1 className="text-5xl font-medium leading-[1.05] tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/30 md:text-7xl lg:text-8xl">
-            Gastón Mauhum
-            <br />
-            <span className="text-4xl font-light italic text-white/40 md:text-6xl lg:text-7xl">
-              Tu mejor versión
-            </span>
-          </h1>
-
-          <p className="max-w-2xl text-xl font-light leading-relaxed text-white/50 md:text-2xl">
-            Especialista en entrenamiento deportivo y funcional. Planes adaptados
-            a tus objetivos reales, con seguimiento constante y resultados
-            comprobables.
-          </p>
-
-          <div className="flex w-full flex-col gap-6 pt-4 sm:flex-row sm:w-auto">
-            <Link
-              href="/login"
-              className="group relative inline-flex items-center justify-center gap-4 rounded-full bg-white px-10 py-5 text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
-            >
-              Ingresar a mi Plan
-              <ArrowRight
-                className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-1"
-                strokeWidth={1.5}
-              />
-            </Link>
-          </div>
-        </div>
-
-        {/* Imagen Hero */}
-        <div className="reveal-scroll group relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] border border-white/10 opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200 lg:col-span-5">
-          <div className="absolute inset-0 bg-zinc-900 animate-pulse" />
-          <img
-            src="/profe_gasti.jpg"
-            alt="Gastón Mauhum Entrenando"
-            className="absolute inset-0 h-full w-full scale-105 object-cover opacity-80 transition-transform duration-1000 ease-out group-hover:scale-100 group-hover:opacity-100"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80" />
-
-          <div className="absolute bottom-8 left-8 right-8">
-            <div className="flex items-center justify-between rounded-3xl border border-white/10 bg-black/40 px-8 py-6 backdrop-blur-2xl transition-colors duration-500 group-hover:border-white/20">
-              <div className="flex flex-col">
-                <span className="text-4xl font-medium tracking-tight text-white">
-                  CAB
-                </span>
-                <span className="mt-1 text-xl font-light text-white/60">
-                  Prep. Físico Futsal
-                </span>
-              </div>
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white">
-                <ShieldHalf className="h-7 w-7" strokeWidth={1.5} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Bento Grid: Mi enfoque de trabajo */}
-      <section className="relative z-10 mx-auto w-full max-w-7xl space-y-10 px-6 py-32">
-        <h2 className="reveal-scroll mb-16 text-4xl font-medium tracking-tight text-white opacity-0 translate-y-12 transition-all duration-1000 ease-out md:text-5xl">
-          Mi enfoque de trabajo
-        </h2>
-
-        <div className="grid auto-rows-auto grid-cols-1 gap-6 md:grid-cols-3">
-          {/* Tarjeta 1: Sobre Mí */}
-          <div
-            className="interactive-card group relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-zinc-950/50 p-10 transition-colors hover:border-white/10 reveal-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out md:col-span-2 lg:p-14"
-            onMouseMove={(e) =>
-              handleCardMouseMove(e, e.currentTarget)
-            }
-          >
-            <div
-              className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.04), transparent 40%)",
-              }}
-            />
-            <div className="absolute right-0 top-0 p-10 opacity-10 transition-opacity duration-500 group-hover:opacity-20">
-              <GraduationCap
-                className="h-32 w-32 text-white"
-                strokeWidth={1.5}
-              />
-            </div>
-            <div className="relative z-10 flex h-full flex-col justify-between space-y-12">
-              <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/5">
-                <BookOpen className="h-10 w-10 text-white" strokeWidth={1.5} />
-              </div>
-              <div className="max-w-2xl space-y-6">
-                <h3 className="text-3xl font-medium tracking-tight text-white md:text-4xl">
-                  Experiencia y Formación
-                </h3>
-                <p className="text-xl font-light leading-relaxed text-white/50">
-                  Profesor de Educación Física egresado del IPEF y Licenciado en
-                  Ciencias del Entrenamiento (UNRAF). Amplia trayectoria en salas
-                  de musculación (Quality Gym, FITNET) y preparación física de
-                  alto rendimiento.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Tarjeta 2: Virtual */}
-          <div
-            className="interactive-card group relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-zinc-950/50 p-10 transition-colors hover:border-white/10 reveal-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-100 lg:p-12"
-            onMouseMove={(e) =>
-              handleCardMouseMove(e, e.currentTarget)
-            }
-          >
-            <div
-              className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(0,229,255,0.05), transparent 40%)",
-              }}
-            />
-            <div className="relative z-10 flex h-full flex-col justify-between space-y-12">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#00e5ff]/20 bg-[#00e5ff]/10">
-                <Smartphone className="h-8 w-8 text-[#00e5ff]" strokeWidth={1.5} />
-              </div>
-              <div>
-                <h3 className="mb-4 text-3xl font-medium tracking-tight text-white">
-                  Virtual
-                </h3>
-                <p className="text-xl font-light leading-relaxed text-white/50">
-                  Seguimiento 100% online, rutinas adaptadas a tu entorno y videos
-                  explicativos detallados.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Tarjeta 3: Personalizado */}
-          <div
-            className="interactive-card group relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-zinc-950/50 p-10 transition-colors hover:border-white/10 reveal-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-200 lg:p-12"
-            onMouseMove={(e) =>
-              handleCardMouseMove(e, e.currentTarget)
-            }
-          >
-            <div
-              className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.04), transparent 40%)",
-              }}
-            />
-            <div className="relative z-10 flex h-full flex-col justify-between space-y-12">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-                <Target className="h-8 w-8 text-white" strokeWidth={1.5} />
-              </div>
-              <div>
-                <h3 className="mb-4 text-3xl font-medium tracking-tight text-white">
-                  Personalizado
-                </h3>
-                <p className="text-xl font-light leading-relaxed text-white/50">
-                  Enfoque específico en tus metas: hipertrofia, rendimiento
-                  deportivo o salud general.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Tarjeta 4: Seguimiento */}
-          <div
-            className="interactive-card group relative overflow-hidden rounded-[2.5rem] border border-white/5 bg-zinc-950/50 p-10 transition-colors hover:border-white/10 reveal-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out delay-300 md:col-span-2 lg:p-14"
-            onMouseMove={(e) =>
-              handleCardMouseMove(e, e.currentTarget)
-            }
-          >
-            <div
-              className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.04), transparent 40%)",
-              }}
-            />
-            <div className="relative z-10 flex h-full flex-col gap-12 md:flex-row md:items-center">
-              <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-[2rem] border border-white/10 bg-white/5">
-                <Activity className="h-12 w-12 text-white" strokeWidth={1.5} />
-              </div>
-              <div>
-                <h3 className="mb-6 text-3xl font-medium tracking-tight text-white md:text-4xl">
-                  Seguimiento Constante
-                </h3>
-                <p className="text-xl font-light leading-relaxed text-white/50">
-                  Monitoreo exhaustivo de intensidades, feedback continuo y
-                  ajustes semanales a tu plan de entrenamiento para garantizar
-                  progreso real y evitar estancamientos.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer / CTA */}
-      <footer
-        id="contacto"
-        className="relative z-10 mt-24 w-full border-t border-white/5 bg-[#050505]"
+    <AuraPageWrapper>
+      <ReactLenis
+        root="asChild"
+        className="h-dvh w-full overflow-hidden"
+        options={{
+          lerp: 0.07,
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 1.2,
+        }}
       >
-        <div className="reveal-scroll mx-auto max-w-7xl px-6 py-32 text-center opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-          <h2 className="mb-12 text-5xl font-medium tracking-tight text-white md:text-7xl">
-            ¿Listo para dar el primer paso?
-          </h2>
+        {/* Navbar */}
+      <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#050505]/60 backdrop-blur-xl transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+          <span className="text-xl font-medium tracking-tighter text-white uppercase">
+            GM
+          </span>
           <a
-            href="mailto:gastimauhum@gmail.com"
-            className="inline-flex items-center gap-4 rounded-full bg-white px-12 py-6 text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            href="#contacto"
+            className="text-sm font-normal text-neutral-400 hover:text-white transition-colors duration-300"
           >
-            Contactame ahora
-            <ArrowRight className="h-6 w-6" strokeWidth={1.5} />
+            Contacto
           </a>
         </div>
+      </nav>
 
-        <div className="border-t border-white/5">
-          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 py-12 md:flex-row">
-            <p className="text-lg font-light text-white/30">
-              © 2026 Gasti Fit — Gastón Mauhum.
-            </p>
-            <div className="flex items-center gap-8">
-              <a
-                href="https://instagram.com/gaston.mauhum"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/30 transition-colors duration-300 hover:text-white"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-6 w-6" strokeWidth={1.5} />
-              </a>
+      <main className="relative z-10 flex-grow pt-20">
+        {/* HERO SECTION */}
+        <section className="min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-6 lg:px-12 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+            {/* Hero Content */}
+            <div className="flex flex-col items-start space-y-10 z-10">
+              <div className="reveal inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02]">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                <span className="text-xs font-medium text-neutral-300 tracking-wide uppercase">
+                  Entrenamiento Presencial y Virtual
+                </span>
+              </div>
+
+              <div className="space-y-6">
+                <h1 className="reveal delay-100 text-6xl md:text-8xl lg:text-[7rem] font-medium tracking-tighter text-white leading-[0.95]">
+                  Gastón
+                  <br />
+                  Mauhum
+                </h1>
+                <p className="reveal delay-200 text-xl md:text-2xl font-normal tracking-tight text-neutral-400 max-w-lg">
+                  Profesor de Educación Física
+                </p>
+              </div>
+
+              <div className="reveal delay-300 pt-4">
+                <Link
+                  href="/login"
+                  className="group inline-flex items-center gap-4 bg-white text-black px-10 py-5 rounded-full text-base font-medium hover:bg-neutral-200 transition-all duration-300"
+                >
+                  Ingresar a mi Plan
+                  <ArrowRight
+                    className="text-xl group-hover:translate-x-1 transition-transform duration-300"
+                    strokeWidth={1.5}
+                  />
+                </Link>
+              </div>
+            </div>
+
+            {/* Hero Image */}
+            <div className="reveal delay-400 relative w-full aspect-[4/5] rounded-3xl overflow-hidden border border-white/5 spotlight-card">
+              <img
+                src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2070&auto=format&fit=crop"
+                alt="Gastón Mauhum"
+                className="absolute inset-0 w-full h-full object-cover img-premium"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10 pointer-events-none" />
+            </div>
+          </div>
+        </section>
+
+        {/* MI ENFOQUE DE TRABAJO */}
+        <section className="py-32 lg:py-40 max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="reveal mb-20">
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white">
+              Mi Enfoque de Trabajo
+            </h2>
+            <div className="h-px w-full bg-white/5 mt-10" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="reveal delay-100 spotlight-card rounded-3xl p-10 lg:p-12 flex flex-col justify-between aspect-square md:aspect-auto">
+              <div className="spotlight-content h-full flex flex-col">
+                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+                  <Smartphone
+                    className="text-3xl text-white"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <div className="mt-auto space-y-4">
+                  <h3 className="text-2xl font-medium tracking-tight text-white">
+                    Virtual
+                  </h3>
+                  <p className="text-base font-normal text-neutral-400 leading-relaxed">
+                    Seguimiento 100% online, rutinas adaptadas a tu entorno y
+                    videos explicativos para asegurar la técnica correcta en cada
+                    movimiento.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="reveal delay-200 spotlight-card rounded-3xl p-10 lg:p-12 flex flex-col justify-between aspect-square md:aspect-auto">
+              <div className="spotlight-content h-full flex flex-col">
+                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+                  <Target className="text-3xl text-white" strokeWidth={1.5} />
+                </div>
+                <div className="mt-auto space-y-4">
+                  <h3 className="text-2xl font-medium tracking-tight text-white">
+                    Personalizado
+                  </h3>
+                  <p className="text-base font-normal text-neutral-400 leading-relaxed">
+                    Enfoque específico en tus metas: ya sea hipertrofia, rendimiento
+                    deportivo o simplemente mejorar tu salud general y bienestar.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="reveal delay-300 spotlight-card rounded-3xl p-10 lg:p-12 flex flex-col justify-between md:col-span-2 min-h-[400px]">
+              <div className="spotlight-content h-full flex flex-col md:flex-row md:items-end gap-10">
+                <div className="flex-shrink-0 mb-auto md:mb-0">
+                  <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                    <Activity
+                      className="text-3xl text-white"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 md:max-w-xl ml-auto">
+                  <h3 className="text-3xl font-medium tracking-tight text-white">
+                    Seguimiento Constante
+                  </h3>
+                  <p className="text-lg font-normal text-neutral-400 leading-relaxed">
+                    Monitoreo exhaustivo de intensidades, feedback continuo y
+                    ajustes semanales para garantizar que el progreso nunca se
+                    detenga.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* EXPERIENCIA */}
+        <section className="py-32 lg:py-40 max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="reveal mb-20">
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white">
+              Experiencia
+            </h2>
+            <div className="h-px w-full bg-white/5 mt-10" />
+          </div>
+
+          <div className="flex flex-col gap-10 lg:gap-16">
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col lg:flex-row overflow-hidden group">
+              <div className="relative w-full lg:w-1/2 h-80 lg:h-auto flex-shrink-0 border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
+                  alt="Escuelas Pías"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content w-full lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+                <span className="text-sm font-medium text-neutral-500 mb-4 tracking-wide uppercase">
+                  Escuelas Pías
+                </span>
+                <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-6">
+                  Profesor de nivel secundario
+                </h3>
+                <p className="text-lg text-neutral-400 font-normal leading-relaxed">
+                  Planificación e implementación de programas de educación física
+                  orientados al desarrollo integral de los alumnos en el ámbito
+                  escolar.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col lg:flex-row-reverse overflow-hidden group">
+              <div className="relative w-full lg:w-1/2 h-80 lg:h-auto flex-shrink-0 border-b lg:border-b-0 lg:border-l border-white/5 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1518605368461-1e1e38ce8ba9?q=80&w=2070&auto=format&fit=crop"
+                  alt="Futsal CAB"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content w-full lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+                <span className="text-sm font-medium text-neutral-500 mb-4 tracking-wide uppercase">
+                  Club Atlético Belgrano
+                </span>
+                <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-6">
+                  Preparador Físico de Reserva y Primera
+                </h3>
+                <p className="text-lg text-neutral-400 font-normal leading-relaxed">
+                  Acondicionamiento físico de alto rendimiento y prevención de
+                  lesiones para el plantel competitivo de Futsal.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col lg:flex-row overflow-hidden group">
+              <div className="relative w-full lg:w-1/2 h-80 lg:h-auto flex-shrink-0 border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
+                  alt="Quality Gym"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content w-full lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+                <span className="text-sm font-medium text-neutral-500 mb-4 tracking-wide uppercase">
+                  Quality Gym &amp; Water
+                </span>
+                <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-6">
+                  Profesor de Sala de Acondicionamiento Físico General
+                </h3>
+                <p className="text-lg text-neutral-400 font-normal leading-relaxed">
+                  Diseño de rutinas y acompañamiento personalizado asegurando la
+                  correcta ejecución biomecánica en sala.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col lg:flex-row-reverse overflow-hidden group">
+              <div className="relative w-full lg:w-1/2 h-80 lg:h-auto flex-shrink-0 border-b lg:border-b-0 lg:border-l border-white/5 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop"
+                  alt="FITNET"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content w-full lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+                <span className="text-sm font-medium text-neutral-500 mb-4 tracking-wide uppercase">
+                  FITNET
+                </span>
+                <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-6">
+                  Profesor de Clases grupales y Musculación
+                </h3>
+                <p className="text-lg text-neutral-400 font-normal leading-relaxed">
+                  Dirección de dinámicas grupales de alta intensidad y
+                  planificación de rutinas enfocadas en hipertrofia y
+                  tonificación.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col lg:flex-row overflow-hidden group">
+              <div className="relative w-full lg:w-1/2 h-80 lg:h-auto flex-shrink-0 border-b lg:border-b-0 lg:border-r border-white/5 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop"
+                  alt="Gimnasio Movimiento Activo"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content w-full lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+                <span className="text-sm font-medium text-neutral-500 mb-4 tracking-wide uppercase">
+                  Gimnasio Movimiento Activo
+                </span>
+                <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-6">
+                  Profesor de Sala de Musculación
+                </h3>
+                <p className="text-lg text-neutral-400 font-normal leading-relaxed">
+                  Asesoramiento integral, corrección postural y optimización de
+                  cargas para usuarios de todos los niveles.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* EDUCACIÓN */}
+        <section className="py-32 lg:py-40 max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="reveal mb-20">
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white">
+              Educación
+            </h2>
+            <div className="h-px w-full bg-white/5 mt-10" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="reveal spotlight-card rounded-[2rem] flex flex-col overflow-hidden group md:col-span-2 lg:col-span-1">
+              <div className="relative w-full h-72 border-b border-white/5 flex-shrink-0 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop"
+                  alt="UNRAF"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content p-10 flex flex-col flex-grow">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-sm font-medium text-neutral-500 tracking-wide uppercase">
+                    UNRAF
+                  </span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse" />
+                    <span className="text-xs font-medium text-neutral-300">
+                      En progreso
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-white">
+                  Licenciatura en Ciencias del Entrenamiento
+                </h3>
+              </div>
+            </div>
+
+            <div className="reveal delay-100 spotlight-card rounded-[2rem] flex flex-col overflow-hidden group">
+              <div className="relative w-full h-72 border-b border-white/5 flex-shrink-0 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop"
+                  alt="IPEF"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content p-10 flex flex-col flex-grow">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-sm font-medium text-neutral-500 tracking-wide uppercase">
+                    IPEF (Univ. Provincial de Córdoba)
+                  </span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-white">
+                  Profesorado Universitario de Educación Física
+                </h3>
+              </div>
+            </div>
+
+            <div className="reveal delay-200 spotlight-card rounded-[2rem] flex flex-col md:flex-row overflow-hidden group md:col-span-2">
+              <div className="relative w-full md:w-2/5 lg:w-1/3 h-72 md:h-auto border-b md:border-b-0 md:border-r border-white/5 flex-shrink-0 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop"
+                  alt="Escuelas Pías Bachiller"
+                  className="absolute inset-0 w-full h-full object-cover img-premium"
+                />
+              </div>
+              <div className="spotlight-content p-10 lg:p-12 flex flex-col justify-center flex-grow">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-sm font-medium text-neutral-500 tracking-wide uppercase">
+                    Escuelas Pías
+                  </span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-white">
+                  Bachiller con orientación a Ciencias Sociales y Humanidades
+                </h3>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA SECTION */}
+        <section
+          id="contacto"
+          className="relative py-40 lg:py-56 z-10"
+        >
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h2 className="reveal text-6xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter text-white leading-none mb-12">
+              ¿Listo para empezar?
+            </h2>
+            <div className="reveal delay-100">
               <a
                 href="mailto:gastimauhum@gmail.com"
-                className="text-white/30 transition-colors duration-300 hover:text-white"
-                aria-label="Email"
+                className="inline-flex items-center justify-center bg-white text-black px-12 py-6 rounded-full text-lg font-medium hover:bg-neutral-200 transition-all duration-300"
               >
-                <Mail className="h-6 w-6" strokeWidth={1.5} />
-              </a>
-              <a
-                href="https://wa.me/543513279915"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/30 transition-colors duration-300 hover:text-white"
-                aria-label="WhatsApp"
-              >
-                <MessageCircle className="h-6 w-6" strokeWidth={1.5} />
+                Contactame
               </a>
             </div>
+          </div>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="relative z-10 border-t border-white/10 py-10 bg-[#050505]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6 reveal delay-200">
+          <div className="text-sm font-normal text-neutral-500 tracking-wide text-center md:text-left">
+            © 2026 Gasti Fit — Gastón Mauhum.
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+            <a
+              href="mailto:gastimauhum@gmail.com"
+              className="text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 text-sm font-normal"
+            >
+              <Mail className="text-xl" strokeWidth={1.5} />
+              <span className="hidden sm:inline">gastimauhum@gmail.com</span>
+            </a>
+            <a
+              href="https://wa.me/543513279915"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 text-sm font-normal"
+            >
+              <Phone className="text-xl" strokeWidth={1.5} />
+              <span className="hidden sm:inline">+54 351 3279915</span>
+            </a>
+            <a
+              href="https://instagram.com/gaston.mauhum"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 text-sm font-normal"
+            >
+              <Instagram className="text-xl" strokeWidth={1.5} />
+              <span className="hidden sm:inline">@gaston.mauhum</span>
+            </a>
           </div>
         </div>
       </footer>
-    </div>
+      </ReactLenis>
+    </AuraPageWrapper>
   );
 }

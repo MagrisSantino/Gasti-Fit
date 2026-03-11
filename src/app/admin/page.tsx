@@ -48,7 +48,7 @@ export default function AdminPage() {
     <AuraPageWrapper>
       <div className="mx-auto max-w-2xl p-5 pb-24 md:pt-8 lg:max-w-4xl">
         {/* Header */}
-        <header className="mb-8 flex items-center justify-between">
+        <header className="reveal mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-medium tracking-tight text-white">
               Panel de Control - Gasti
@@ -64,8 +64,8 @@ export default function AdminPage() {
           </div>
         </header>
 
-        {/* Tabs (píldoras: mismo estilo que landing / dashboard) */}
-        <div className="mb-8">
+        {/* Tabs */}
+        <div className="reveal delay-100 mb-8">
           <div className="flex flex-wrap gap-3">
             {TAB_IDS.map((id) => {
               const isActive = tabActivo === id;
@@ -76,7 +76,7 @@ export default function AdminPage() {
                   onClick={() => setTabActivo(id)}
                   className={`flex h-12 min-w-[10rem] shrink-0 items-center justify-center gap-2 rounded-2xl border px-5 text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "border-[#00e5ff]/50 bg-[#00e5ff] text-black shadow-[0_0_20px_-5px_rgba(0,229,255,0.4)]"
+                      ? "border-white/50 bg-white text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)]"
                       : "border-white/5 bg-white/5 text-white/50 hover:border-white/10 hover:bg-white/[0.07] hover:text-white/70"
                   }`}
                 >
@@ -95,10 +95,9 @@ export default function AdminPage() {
           {tabActivo === "clientes" && (
             <>
               {/* Tarjeta: Lista rápida de clientes activos */}
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black backdrop-blur-xl">
-                <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#00e5ff]/10 blur-3xl" />
-                <div className="relative z-10">
-                  <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#00e5ff]">
+              <div className="reveal delay-200 spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-6">
+                <div className="spotlight-content">
+                  <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
                     Clientes activos
                   </p>
                   <h2 className="mb-4 text-xl font-medium tracking-tight text-white">
@@ -134,13 +133,13 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Botón destacado: mismo estilo que landing / FAB */}
-              <div className="flex justify-center">
+              {/* Botón destacado */}
+              <div className="reveal delay-300 flex justify-center">
                 <a
                   href="https://strengthlevel.es/calculadora-de-una-repeticion-maxima"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex w-full max-w-lg items-center justify-center gap-4 rounded-full bg-[#00e5ff] px-10 py-5 text-xl font-medium text-black shadow-[0_4px_30px_-5px_rgba(0,229,255,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(0,229,255,0.5)] active:scale-[0.98]"
+                  className="group flex w-full max-w-lg items-center justify-center gap-4 rounded-full bg-white px-10 py-5 text-xl font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98]"
                 >
                   Calculadora RM
                   <ArrowRight
@@ -153,10 +152,9 @@ export default function AdminPage() {
           )}
 
           {tabActivo === "biblioteca" && (
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-black backdrop-blur-xl">
-              <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#00e5ff]/10 blur-3xl" />
-              <div className="relative z-10 text-center">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#00e5ff]">
+            <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-8">
+              <div className="spotlight-content text-center">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
                   Próximamente
                 </p>
                 <h2 className="text-xl font-medium tracking-tight text-white">
@@ -170,10 +168,9 @@ export default function AdminPage() {
           )}
 
           {tabActivo === "planes" && (
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-black backdrop-blur-xl">
-              <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#00e5ff]/10 blur-3xl" />
-              <div className="relative z-10 text-center">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#00e5ff]">
+            <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-8">
+              <div className="spotlight-content text-center">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
                   Próximamente
                 </p>
                 <h2 className="text-xl font-medium tracking-tight text-white">

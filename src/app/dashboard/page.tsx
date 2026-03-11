@@ -95,7 +95,7 @@ export default function DashboardPage() {
     <AuraPageWrapper className="pb-32">
       <div className="mx-auto max-w-lg p-5 md:pt-8 lg:max-w-2xl">
         {/* Header */}
-        <header className="mb-8 flex items-center justify-between">
+        <header className="reveal mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-medium tracking-tight text-white">
               Hola, Ezequiel <span className="text-xl">👋</span>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
         </header>
 
         {/* Weekly Progress Pills */}
-        <div className="mb-8">
+        <div className="reveal delay-100 mb-8">
           <div
             className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                 key={dia.id}
                 className={`flex h-20 w-[4.5rem] shrink-0 flex-col items-center justify-center rounded-2xl ${
                   dia.isToday
-                    ? "bg-[#00e5ff] text-black shadow-[0_0_20px_-5px_rgba(0,229,255,0.4)]"
+                    ? "bg-white text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)]"
                     : "border border-white/5 bg-white/5 text-white/50"
                 } relative`}
               >
@@ -140,7 +140,7 @@ export default function DashboardPage() {
                   {dia.dia}
                 </span>
                 {(dia.isDone || dia.hasScheduled) && !dia.isToday && (
-                  <div className="absolute bottom-2 h-1 w-1 rounded-full bg-[#00e5ff] opacity-60" />
+                  <div className="absolute bottom-2 h-1 w-1 rounded-full bg-white/60" />
                 )}
               </div>
             ))}
@@ -148,10 +148,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Workout Summary Card */}
-        <div className="relative mb-8 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black backdrop-blur-xl">
-          <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#00e5ff]/10 blur-3xl" />
-          <div className="relative z-10">
-            <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#00e5ff]">
+        <div className="reveal delay-200 spotlight-card mb-8 overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+          <div className="spotlight-content">
+            <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
               Rutina de Hoy
             </p>
             <h2 className="mb-4 text-xl font-medium tracking-tight text-white">
@@ -171,7 +170,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Exercise List */}
-        <div className="space-y-4">
+        <div className="reveal delay-300 space-y-4">
           <h3 className="mb-4 px-1 text-sm font-medium uppercase tracking-wide text-white/50">
             Ejercicios
           </h3>
@@ -223,8 +222,8 @@ export default function DashboardPage() {
                 <div
                   className={`flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                     ej.completado
-                      ? "border-[#00e5ff] bg-[#00e5ff] text-black"
-                      : "border-white/30 text-transparent hover:border-[#00e5ff]/50"
+                      ? "border-white bg-white text-black"
+                      : "border-white/30 text-transparent hover:border-white/50"
                   }`}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={2} />
@@ -235,12 +234,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Floating Action Button (FAB): mismo estilo que botón principal landing */}
+      {/* FAB */}
       <div className="fixed bottom-0 left-0 z-50 flex w-full justify-center bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent p-4 pb-8 pointer-events-none md:pb-10">
         <button
           type="button"
           onClick={handleFinalizarEntrenamiento}
-          className="group pointer-events-auto mx-auto flex w-full max-w-lg items-center justify-center gap-4 rounded-full bg-[#00e5ff] px-10 py-5 text-xl font-medium text-black shadow-[0_4px_30px_-5px_rgba(0,229,255,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(0,229,255,0.5)] active:scale-[0.98] lg:max-w-2xl"
+          className="reveal group pointer-events-auto mx-auto flex w-full max-w-lg items-center justify-center gap-4 rounded-full bg-white px-10 py-5 text-xl font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] lg:max-w-2xl"
         >
           FINALIZAR ENTRENAMIENTO
           <ArrowRight

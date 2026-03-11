@@ -57,10 +57,10 @@ export default function LoginPage() {
     <AuraPageWrapper>
       <div className="flex min-h-screen items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
-          {/* Card: mismo glassmorphism y bordes que landing */}
-          <div className="rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-black backdrop-blur-xl sm:p-10">
-            <div className="mb-8 text-center">
-              <h1 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
+          {/* Card: spotlight premium */}
+          <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 p-8 sm:p-10">
+            <div className="spotlight-content mb-8 text-center">
+              <h1 className="reveal delay-100 text-2xl font-medium tracking-tight text-white sm:text-3xl">
                 Iniciar sesión
               </h1>
               <p className="mt-2 text-lg font-light text-white/50">
@@ -68,7 +68,7 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="spotlight-content space-y-6">
               {error && (
                 <div
                   role="alert"
@@ -98,7 +98,7 @@ export default function LoginPage() {
                     required
                     autoComplete="email"
                     placeholder="tu@email.com"
-                    className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-[#00e5ff] focus:ring-2 focus:ring-[#00e5ff]/20"
+                    className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-white focus:ring-2 focus:ring-white/20"
                   />
                 </div>
               </div>
@@ -123,16 +123,16 @@ export default function LoginPage() {
                     required
                     autoComplete="current-password"
                     placeholder="••••••••"
-                    className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-[#00e5ff] focus:ring-2 focus:ring-[#00e5ff]/20"
+                    className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-white focus:ring-2 focus:ring-white/20"
                   />
                 </div>
               </div>
 
-              {/* Botón: mismo estilo que "Ingresar a mi Plan" pero en turquesa */}
+              {/* Botón: paleta monocromática */}
               <button
                 type="submit"
                 disabled={loading}
-                className="group flex w-full items-center justify-center gap-4 rounded-full bg-[#00e5ff] px-10 py-5 text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:transform-none"
+                className="reveal delay-200 group flex w-full items-center justify-center gap-4 rounded-full bg-white px-10 py-5 text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:transform-none"
               >
                 {loading ? (
                   "Entrando..."
@@ -148,10 +148,10 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <p className="mt-6 text-center text-lg font-light text-white/40">
+            <p className="spotlight-content mt-6 text-center text-lg font-light text-white/40">
               <Link
                 href="/"
-                className="text-[#00e5ff] transition-colors hover:text-[#00e5ff]/80"
+                className="text-white/80 transition-colors hover:text-white"
               >
                 ← Volver al inicio
               </Link>

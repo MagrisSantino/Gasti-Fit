@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "lenis/dist/lenis.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -126,4 +127,87 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Premium Noise & Ambient Glow Backgrounds */
+.noise-bg {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 9999; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2rem, -3rem) scale(1.05); }
+  66% { transform: translate(-1rem, 1rem) scale(0.95); }
+}
+.ambient-glow {
+  position: fixed; border-radius: 50%; filter: blur(120px);
+  pointer-events: none; z-index: 0; animation: floatGlow 20s infinite ease-in-out;
+}
+.ambient-glow-1 {
+  top: -10%; left: -5%; width: 45vw; height: 45vw; background: rgba(255, 255, 255, 0.03);
+}
+.ambient-glow-2 {
+  bottom: -15%; right: -5%; width: 55vw; height: 55vw; background: rgba(255, 255, 255, 0.02);
+  animation-delay: -10s; animation-duration: 25s;
+}
+/* Cuberto-Style Scroll Reveal */
+.reveal {
+  opacity: 0; transform: translateY(5rem) scale(0.95); filter: blur(10px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+}
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+
+/* Spotlight Hover Effect */
+.spotlight-card {
+  position: relative; background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden;
+  transition: border-color 0.5s ease, background-color 0.5s ease;
+}
+.spotlight-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.08), transparent 40%);
+  opacity: 0; transition: opacity 0.5s ease; pointer-events: none; z-index: 1;
+}
+.spotlight-card:hover { border-color: rgba(255, 255, 255, 0.15); }
+.spotlight-card:hover::before { opacity: 1; }
+.spotlight-content { position: relative; z-index: 2; }
+
+/* Enhanced Images with Intro Parallax/Zoom */
+.img-premium {
+  filter: grayscale(100%) contrast(1.1) brightness(0.8); transform: scale(1.15);
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active .img-premium { transform: scale(1); }
+.spotlight-card:hover .img-premium {
+  filter: grayscale(40%) contrast(1.1) brightness(1); transform: scale(1.03) !important;
+}
+
+/* Lenis smooth scroll (solo activo en landing cuando ReactLenis está montado) */
+html.lenis,
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+/* Evitar vibración lateral: sin scroll horizontal en página */
+html.lenis,
+html.lenis body {
+  overflow-x: hidden !important;
+}
+.lenis.lenis-smooth {
+  overflow: hidden;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overflow: auto;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }

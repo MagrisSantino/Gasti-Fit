@@ -1,16 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  Users,
-  Library,
-  FileEdit,
-  User,
-  ChevronRight,
-  ArrowRight,
-} from "lucide-react";
+import { Users, Library, FileEdit, User, ChevronRight, ArrowRight } from "lucide-react";
 import { AuraPageWrapper } from "@/components/aura-page-wrapper";
+import { createClient } from "@/utils/supabase/client";
+import { BibliotecaTab } from "@/components/admin/biblioteca-tab";
 
 const TAB_IDS = ["clientes", "biblioteca", "planes"] as const;
 const TAB_LABELS: Record<(typeof TAB_IDS)[number], string> = {
@@ -19,39 +14,57 @@ const TAB_LABELS: Record<(typeof TAB_IDS)[number], string> = {
   planes: "Creador de Planes",
 };
 
-// Clientes de ejemplo para la lista rápida
-const CLIENTES_ACTIVOS = [
-  { id: "1", nombre: "Ezequiel M.", plan: "Plan Mensual" },
-  { id: "2", nombre: "María L.", plan: "Plan 3x Semana" },
-  { id: "3", nombre: "Juan P.", plan: "Plan Personalizado" },
-];
+type Cliente = {
+  id: string;
+  nombre: string;
+  email: string;
+};
 
 function formatFechaHoy(): string {
-  const hoy = new Date();
-  return hoy.toLocaleDateString("es-AR", {
+  return new Date().toLocaleDateString("es-AR", {
     weekday: "long",
     day: "numeric",
     month: "long",
   });
 }
 
-// Capitalizar primera letra de cada palabra
 function capitalizar(str: string): string {
   return str.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default function AdminPage() {
   const [tabActivo, setTabActivo] = useState<(typeof TAB_IDS)[number]>("clientes");
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [loadingClientes, setLoadingClientes] = useState(true);
   const fechaHoy = formatFechaHoy();
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function cargarClientes() {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("users")
+        .select("id, nombre, email")
+        .eq("rol", "client")
+        .order("created_at", { ascending: false });
+      if (!mounted) return;
+      if (data) setClientes(data);
+      setLoadingClientes(false);
+    }
+
+    cargarClientes();
+    return () => { mounted = false; };
+  }, []);
 
   return (
     <AuraPageWrapper>
-      <div className="mx-auto max-w-2xl p-5 pb-24 md:pt-8 lg:max-w-4xl">
+      <div className="mx-auto min-w-0 max-w-2xl p-5 pb-24 md:pt-8 lg:max-w-4xl">
         {/* Header */}
         <header className="reveal mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-medium tracking-tight text-white">
-              Panel de Control - Gasti
+              Panel de Control — Gasti
             </h1>
             <p className="mt-1 text-lg font-light text-white/50">
               {capitalizar(fechaHoy)}
@@ -74,7 +87,7 @@ export default function AdminPage() {
                   key={id}
                   type="button"
                   onClick={() => setTabActivo(id)}
-                  className={`flex h-12 min-w-[10rem] shrink-0 items-center justify-center gap-2 rounded-2xl border px-5 text-sm font-medium transition-all duration-200 ${
+                  className={`flex h-12 min-w-40 shrink-0 items-center justify-center gap-2 rounded-2xl border px-5 text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? "border-white/50 bg-white text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)]"
                       : "border-white/5 bg-white/5 text-white/50 hover:border-white/10 hover:bg-white/[0.07] hover:text-white/70"
@@ -90,12 +103,11 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Contenido principal según tab */}
-        <div className="space-y-8">
+        {/* Contenido */}
+        <div key={tabActivo} className="space-y-8">
           {tabActivo === "clientes" && (
             <>
-              {/* Tarjeta: Lista rápida de clientes activos */}
-              <div className="reveal delay-200 spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-6">
+              <div className="reveal delay-200 spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
                 <div className="spotlight-content">
                   <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
                     Clientes activos
@@ -104,25 +116,29 @@ export default function AdminPage() {
                     Lista rápida
                   </h2>
                   <ul className="space-y-2">
-                    {CLIENTES_ACTIVOS.length === 0 ? (
-                      <li className="rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-white/40">
+                    {loadingClientes ? (
+                      <li className="rounded-2xl border border-white/5 bg-white/2 px-4 py-3 text-sm text-white/40">
+                        Cargando clientes...
+                      </li>
+                    ) : clientes.length === 0 ? (
+                      <li className="rounded-2xl border border-white/5 bg-white/2 px-4 py-3 text-sm text-white/40">
                         Aún no hay clientes activos.
                       </li>
                     ) : (
-                      CLIENTES_ACTIVOS.map((c) => (
+                      clientes.map((c) => (
                         <li
                           key={c.id}
-                          className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/[0.02] p-3 transition-colors hover:bg-white/[0.04]"
+                          className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/2 p-3 transition-colors hover:bg-white/4"
                         >
                           <div className="flex items-center gap-3">
                             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5">
-                              <User className="h-4 w-4 text-white/40" />
+                              <span className="text-sm font-medium text-white/60">
+                                {c.nombre[0].toUpperCase()}
+                              </span>
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-white">
-                                {c.nombre}
-                              </p>
-                              <p className="text-xs text-white/50">{c.plan}</p>
+                              <p className="text-sm font-medium text-white">{c.nombre}</p>
+                              <p className="text-xs text-white/50">{c.email}</p>
                             </div>
                           </div>
                           <ChevronRight className="h-4 w-4 text-white/40" />
@@ -133,7 +149,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Botón destacado */}
               <div className="reveal delay-300 flex justify-center">
                 <a
                   href="https://strengthlevel.es/calculadora-de-una-repeticion-maxima"
@@ -151,24 +166,10 @@ export default function AdminPage() {
             </>
           )}
 
-          {tabActivo === "biblioteca" && (
-            <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-8">
-              <div className="spotlight-content text-center">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
-                  Próximamente
-                </p>
-                <h2 className="text-xl font-medium tracking-tight text-white">
-                  Biblioteca de Ejercicios
-                </h2>
-                <p className="mt-3 text-lg font-light text-white/50">
-                  Aquí podrás gestionar tu catálogo de ejercicios.
-                </p>
-              </div>
-            </div>
-          )}
+          {tabActivo === "biblioteca" && <BibliotecaTab />}
 
           {tabActivo === "planes" && (
-            <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 overflow-hidden p-8">
+            <div className="reveal spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-8">
               <div className="spotlight-content text-center">
                 <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
                   Próximamente
@@ -185,7 +186,6 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Link de vuelta: mismo estilo que landing */}
       <div className="fixed bottom-4 left-4 z-40">
         <Link
           href="/"

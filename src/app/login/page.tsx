@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { AuraPageWrapper } from "@/components/aura-page-wrapper";
+import { FIELD_LIMITS } from "@/lib/field-limits";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function LoginPage() {
       .eq("id", userId)
       .single();
 
-    if (userData?.rol === "admin") {
+    if ((userData as { rol?: string } | null)?.rol === "admin") {
       router.push("/admin");
     } else {
       router.push("/dashboard");
@@ -97,6 +98,7 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoComplete="email"
+                    maxLength={FIELD_LIMITS.email}
                     placeholder="tu@email.com"
                     className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-white focus:ring-2 focus:ring-white/20"
                   />
@@ -122,6 +124,7 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoComplete="current-password"
+                    maxLength={FIELD_LIMITS.password}
                     placeholder="••••••••"
                     className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 outline-none transition-colors focus:border-white focus:ring-2 focus:ring-white/20"
                   />

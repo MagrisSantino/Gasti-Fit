@@ -21,8 +21,7 @@ export function AuraPageWrapper({
     const container = contentRef.current;
     if (!container) return;
 
-    const revealEls = container.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
+    const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -32,9 +31,22 @@ export function AuraPageWrapper({
       },
       { root: null, rootMargin: "0px", threshold: 0.1 }
     );
-    revealEls.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    function observeNew() {
+      container!
+        .querySelectorAll(".reveal:not(.active)")
+        .forEach((el) => intersectionObserver.observe(el));
+    }
+
+    observeNew();
+
+    const mutationObserver = new MutationObserver(observeNew);
+    mutationObserver.observe(container, { childList: true, subtree: true });
+
+    return () => {
+      intersectionObserver.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -70,7 +82,7 @@ export function AuraPageWrapper({
       <div className="noise-bg" />
       <div className="ambient-glow ambient-glow-1" />
       <div className="ambient-glow ambient-glow-2" />
-      <div ref={contentRef} className="relative z-10 flex min-h-screen flex-col">
+      <div ref={contentRef} className="relative z-10 flex min-h-screen min-w-0 flex-col">
         {children}
       </div>
     </div>

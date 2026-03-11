@@ -2,10 +2,14 @@
  * Tipos de la base de datos Supabase (Gasti Fit).
  * Mantener en sync con el esquema en Supabase:
  * - public.users (auth.users)
+ * - public.exercise_groups
  * - public.exercises
  * - public.plans
  * - public.plan_exercises
  * - public.workout_logs
+ *
+ * Límites de campos (maxLength, min, max) en front: ver y usar @/lib/field-limits.ts.
+ * Para NUEVOS campos: definir el límite en field-limits.ts y usarlo en formularios.
  */
 
 export type Json =
@@ -35,6 +39,23 @@ export type DiaSemana =
 export interface Database {
   public: {
     Tables: {
+      exercise_groups: {
+        Row: {
+          id: string;
+          nombre: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          nombre: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          nombre?: string;
+          created_at?: string;
+        };
+      };
       users: {
         Row: {
           id: string;
@@ -62,7 +83,11 @@ export interface Database {
         Row: {
           id: string;
           nombre: string;
+          group_id: string | null;
           video_url: string | null;
+          videos: string[] | null;
+          descripcion: string | null;
+          fotos: string[] | null;
           categoria: ExerciseCategoria | null;
           intensidad_omni: number | null;
           tiempo_descanso: string | null;
@@ -71,7 +96,11 @@ export interface Database {
         Insert: {
           id?: string;
           nombre: string;
+          group_id?: string | null;
           video_url?: string | null;
+          videos?: string[] | null;
+          descripcion?: string | null;
+          fotos?: string[] | null;
           categoria?: ExerciseCategoria | null;
           intensidad_omni?: number | null;
           tiempo_descanso?: string | null;
@@ -80,7 +109,11 @@ export interface Database {
         Update: {
           id?: string;
           nombre?: string;
+          group_id?: string | null;
           video_url?: string | null;
+          videos?: string[] | null;
+          descripcion?: string | null;
+          fotos?: string[] | null;
           categoria?: ExerciseCategoria | null;
           intensidad_omni?: number | null;
           tiempo_descanso?: string | null;

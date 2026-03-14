@@ -6,6 +6,7 @@ import { Users, Library, FileEdit, User, ChevronRight, ArrowRight } from "lucide
 import { AuraPageWrapper } from "@/components/aura-page-wrapper";
 import { createClient } from "@/utils/supabase/client";
 import { BibliotecaTab } from "@/components/admin/biblioteca-tab";
+import { PlanesTab } from "@/components/admin/planes-tab";
 
 const TAB_IDS = ["clientes", "biblioteca", "planes"] as const;
 const TAB_LABELS: Record<(typeof TAB_IDS)[number], string> = {
@@ -168,21 +169,7 @@ export default function AdminPage() {
 
           {tabActivo === "biblioteca" && <BibliotecaTab />}
 
-          {tabActivo === "planes" && (
-            <div className="reveal spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-8">
-              <div className="spotlight-content text-center">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
-                  Próximamente
-                </p>
-                <h2 className="text-xl font-medium tracking-tight text-white">
-                  Creador de Planes
-                </h2>
-                <p className="mt-3 text-lg font-light text-white/50">
-                  Crea y edita planes de entrenamiento para tus clientes.
-                </p>
-              </div>
-            </div>
-          )}
+          {tabActivo === "planes" && <PlanesTab />}
         </div>
       </div>
 

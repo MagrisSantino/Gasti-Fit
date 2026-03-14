@@ -5,6 +5,7 @@
  * - public.exercise_groups
  * - public.exercises
  * - public.plans
+ * - public.plan_days
  * - public.plan_exercises
  * - public.workout_logs
  *
@@ -89,8 +90,6 @@ export interface Database {
           descripcion: string | null;
           fotos: string[] | null;
           categoria: ExerciseCategoria | null;
-          intensidad_omni: number | null;
-          tiempo_descanso: string | null;
           created_at: string;
         };
         Insert: {
@@ -102,8 +101,6 @@ export interface Database {
           descripcion?: string | null;
           fotos?: string[] | null;
           categoria?: ExerciseCategoria | null;
-          intensidad_omni?: number | null;
-          tiempo_descanso?: string | null;
           created_at?: string;
         };
         Update: {
@@ -115,8 +112,6 @@ export interface Database {
           descripcion?: string | null;
           fotos?: string[] | null;
           categoria?: ExerciseCategoria | null;
-          intensidad_omni?: number | null;
-          tiempo_descanso?: string | null;
           created_at?: string;
         };
       };
@@ -125,7 +120,7 @@ export interface Database {
           id: string;
           user_id: string;
           titulo_plan: string;
-          fecha_creacion: string;
+          fecha_creacion?: string;
         };
         Insert: {
           id?: string;
@@ -140,33 +135,62 @@ export interface Database {
           fecha_creacion?: string;
         };
       };
-      plan_exercises: {
+      plan_days: {
         Row: {
           id: string;
           plan_id: string;
-          exercise_id: string;
-          dia_semana: DiaSemana;
-          series: string;
-          repeticiones: string;
+          titulo: string;
+          frecuencia: string;
+          orden: number;
           created_at: string;
         };
         Insert: {
           id?: string;
           plan_id: string;
-          exercise_id: string;
-          dia_semana: DiaSemana;
-          series: string;
-          repeticiones: string;
+          titulo: string;
+          frecuencia: string;
+          orden: number;
           created_at?: string;
         };
         Update: {
           id?: string;
           plan_id?: string;
+          titulo?: string;
+          frecuencia?: string;
+          orden?: number;
+          created_at?: string;
+        };
+      };
+      plan_exercises: {
+        Row: {
+          id: string;
+          day_id: string;
+          exercise_id: string;
+          series: string;
+          repeticiones: string;
+          intensidad_omni: number;
+          tiempo_descanso: string;
+          orden: number;
+        };
+        Insert: {
+          id?: string;
+          day_id: string;
+          exercise_id: string;
+          series: string;
+          repeticiones: string;
+          intensidad_omni: number;
+          tiempo_descanso: string;
+          orden: number;
+        };
+        Update: {
+          id?: string;
+          day_id?: string;
           exercise_id?: string;
-          dia_semana?: DiaSemana;
           series?: string;
           repeticiones?: string;
-          created_at?: string;
+          intensidad_omni?: number;
+          tiempo_descanso?: string;
+          orden?: number;
         };
       };
       workout_logs: {
@@ -221,5 +245,6 @@ export type TablesUpdate<T extends keyof Database["public"]["Tables"]> =
 export type User = Tables<"users">;
 export type Exercise = Tables<"exercises">;
 export type Plan = Tables<"plans">;
+export type PlanDay = Tables<"plan_days">;
 export type PlanExercise = Tables<"plan_exercises">;
 export type WorkoutLog = Tables<"workout_logs">;

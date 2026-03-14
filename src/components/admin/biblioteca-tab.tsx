@@ -20,8 +20,6 @@ type Ejercicio = {
   videos: string[] | null;
   descripcion: string | null;
   fotos: string[] | null;
-  tiempo_descanso: string | null;
-  intensidad_omni: number | null;
 };
 
 type FormEj = {
@@ -29,8 +27,6 @@ type FormEj = {
   group_id: string;
   descripcion: string;
   videos: string[];
-  tiempo_descanso: string;
-  intensidad_omni: string;
   fotos: string[];
 };
 
@@ -39,8 +35,6 @@ const FORM_VACIO: FormEj = {
   group_id: "",
   descripcion: "",
   videos: [],
-  tiempo_descanso: "",
-  intensidad_omni: "",
   fotos: [],
 };
 
@@ -98,9 +92,7 @@ export function BibliotecaTab() {
         sb.from("exercise_groups").select("id, nombre").order("created_at"),
         sb
           .from("exercises")
-          .select(
-            "id, nombre, group_id, video_url, videos, descripcion, fotos, tiempo_descanso, intensidad_omni"
-          )
+          .select("id, nombre, group_id, video_url, videos, descripcion, fotos")
           .order("nombre"),
       ]);
       if (!mounted) return;
@@ -183,8 +175,6 @@ export function BibliotecaTab() {
       group_id: ej.group_id ?? "",
       descripcion: ej.descripcion ?? "",
       videos,
-      tiempo_descanso: ej.tiempo_descanso ?? "",
-      intensidad_omni: ej.intensidad_omni != null ? String(ej.intensidad_omni) : "",
       fotos: ej.fotos ?? [],
     });
     setVideoUrlInput("");
@@ -204,11 +194,6 @@ export function BibliotecaTab() {
     if (!form.nombre.trim()) { setErrorForm("El nombre es obligatorio."); return; }
     const nombre = trimToLimit(form.nombre.trim(), FIELD_LIMITS.ejercicio_nombre);
     const descripcion = trimToLimit(form.descripcion.trim(), FIELD_LIMITS.ejercicio_descripcion) || null;
-    const tiempoDescanso = trimToLimit(form.tiempo_descanso.trim(), FIELD_LIMITS.tiempo_descanso) || null;
-    let omni: number | null = form.intensidad_omni ? Number(form.intensidad_omni) : null;
-    if (omni !== null && (omni < FIELD_LIMITS.intensidad_omni_min || omni > FIELD_LIMITS.intensidad_omni_max)) {
-      omni = Math.max(FIELD_LIMITS.intensidad_omni_min, Math.min(FIELD_LIMITS.intensidad_omni_max, omni));
-    }
     setGuardando(true);
     setErrorForm(null);
     try {
@@ -219,13 +204,11 @@ export function BibliotecaTab() {
         descripcion: descripcion || null,
         video_url: form.videos[0] ?? null,
         videos: form.videos.length > 0 ? form.videos : null,
-        tiempo_descanso: tiempoDescanso,
-        intensidad_omni: omni,
         fotos: form.fotos.length > 0 ? form.fotos : null,
       };
 
       const campos =
-        "id, nombre, group_id, video_url, videos, descripcion, fotos, tiempo_descanso, intensidad_omni";
+        "id, nombre, group_id, video_url, videos, descripcion, fotos";
 
       if (editando) {
         const { data, error } = await (sb.from("exercises") as any).update(payload).eq("id", editando.id).select(campos).single();
@@ -508,9 +491,6 @@ export function BibliotecaTab() {
                                   </div>
                                   <div>
                                     <p className="text-xs font-medium text-white">{ej.nombre}</p>
-                                    {ej.tiempo_descanso && (
-                                      <p className="text-xs text-white/30">{ej.tiempo_descanso}</p>
-                                    )}
                                   </div>
                                 </div>
                                 <button
@@ -638,7 +618,6 @@ export function BibliotecaTab() {
                       <p className="text-sm font-medium text-white">{ej.nombre}</p>
                       <p className="text-xs text-white/40">
                         {grupo?.nombre ?? "Sin grupo"}
-                        {ej.tiempo_descanso && ` · ${ej.tiempo_descanso}`}
                       </p>
                     </div>
                   </div>
@@ -908,35 +887,6 @@ export function BibliotecaTab() {
                 </div>
               </div>
 
-              {/* Descanso e Intensidad */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-white/60">
-                    Tiempo de descanso
-                  </label>
-                  <input
-                    value={form.tiempo_descanso}
-                    onChange={(e) => setF("tiempo_descanso", e.target.value)}
-                    placeholder="Ej: 90s"
-                    maxLength={FIELD_LIMITS.tiempo_descanso}
-                    className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/30"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-white/60">
-                    Intensidad OMNI
-                  </label>
-                  <input
-                    type="number"
-                    min={FIELD_LIMITS.intensidad_omni_min}
-                    max={FIELD_LIMITS.intensidad_omni_max}
-                    value={form.intensidad_omni}
-                    onChange={(e) => setF("intensidad_omni", e.target.value)}
-                    placeholder="1–10"
-                    className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/30"
-                  />
-                </div>
-              </div>
             </div>
 
             {/* Botones */}

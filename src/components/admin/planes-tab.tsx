@@ -37,9 +37,14 @@ function generarId(): string {
   return `temp-${Math.random().toString(36).slice(2, 11)}`;
 }
 
+type PlanesTabProps = {
+  /** ID del alumno preseleccionado al venir desde la pestaña Mis Clientes (ej: "+ Crear Plan"). */
+  preselectedClient?: string | null;
+};
+
 // ─── Componente ──────────────────────────────────────────────────────────────
 
-export function PlanesTab() {
+export function PlanesTab({ preselectedClient }: PlanesTabProps) {
   const [alumnos, setAlumnos] = useState<User[]>([]);
   const [ejercicios, setEjercicios] = useState<Exercise[]>([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -87,9 +92,17 @@ export function PlanesTab() {
         return;
       }
 
-      setAlumnos(resUsers.data ?? []);
+      const data = resUsers.data ?? [];
+      setAlumnos(data);
       setEjercicios(resExercises.data ?? []);
-      if (resUsers.data?.length) setUserId(resUsers.data[0].id);
+      // Respetar alumno preseleccionado si viene desde Mis Clientes; si no, usar el primero de la lista.
+      const defaultUserId =
+        preselectedClient && data.some((u) => u.id === preselectedClient)
+          ? preselectedClient
+          : data.length > 0
+            ? data[0].id
+            : "";
+      setUserId(defaultUserId);
       setLoadingData(false);
     }
 
@@ -98,6 +111,16 @@ export function PlanesTab() {
       mounted = false;
     };
   }, []);
+
+  // Cuando cambia preselectedClient y la lista ya está cargada, actualizar el select.
+  useEffect(() => {
+    if (
+      preselectedClient &&
+      alumnos.some((u) => u.id === preselectedClient)
+    ) {
+      setUserId(preselectedClient);
+    }
+  }, [preselectedClient, alumnos]);
 
   // ─── Días (inmutables) ───────────────────────────────────────────────────
 

@@ -376,8 +376,10 @@ export default function Home() {
               ¿Listo para empezar?
             </h2>
             <div className="reveal delay-100">
-              <a
-                href="mailto:gastimauhum@gmail.com"
+              <a 
+                href="https://wa.me/543513279915?text=Hola%20Gastón,%20quiero%20empezar%20a%20entrenar!" 
+                target="_blank" 
+                rel="noopener noreferrer" 
                 className="inline-flex items-center justify-center bg-white text-black px-12 py-6 rounded-full text-lg font-medium hover:bg-neutral-200 transition-all duration-300"
               >
                 Contactame

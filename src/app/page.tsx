@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -14,19 +15,16 @@ import { ReactLenis } from "lenis/react";
 import { AuraPageWrapper } from "@/components/aura-page-wrapper";
 
 export default function Home() {
-  return (
-    <AuraPageWrapper>
-      <ReactLenis
-        root="asChild"
-        className="min-h-screen w-full overflow-x-hidden"
-        options={{
-          lerp: 0.07,
-          smoothWheel: true,
-          wheelMultiplier: 1,
-          touchMultiplier: 1.2,
-        }}
-      >
-        {/* Navbar */}
+  const [useLenis, setUseLenis] = useState(false);
+
+  useEffect(() => {
+    const isDesktop = window.innerWidth >= 768 && !("ontouchstart" in window);
+    setUseLenis(isDesktop);
+  }, []);
+
+  const content = (
+    <>
+      {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#050505]/60 backdrop-blur-xl transition-all duration-300 safe-area-inset-top">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-14 sm:h-20 flex items-center justify-between">
           <span className="text-xl font-medium tracking-tighter text-white uppercase">
@@ -425,7 +423,29 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      </ReactLenis>
+    </>
+  );
+
+  return (
+    <AuraPageWrapper>
+      {useLenis ? (
+        <ReactLenis
+          root="asChild"
+          className="h-dvh w-full overflow-hidden"
+          options={{
+            lerp: 0.07,
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 1.2,
+          }}
+        >
+          {content}
+        </ReactLenis>
+      ) : (
+        <div className="min-h-screen w-full overflow-x-hidden">
+          {content}
+        </div>
+      )}
     </AuraPageWrapper>
   );
 }

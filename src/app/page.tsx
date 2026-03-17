@@ -18,7 +18,7 @@ export default function Home() {
     <AuraPageWrapper>
       <ReactLenis
         root="asChild"
-        className="h-dvh w-full overflow-hidden"
+        className="min-h-screen w-full overflow-x-hidden"
         options={{
           lerp: 0.07,
           smoothWheel: true,

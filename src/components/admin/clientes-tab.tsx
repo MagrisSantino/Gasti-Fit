@@ -146,20 +146,20 @@ export function ClientesTab({ onNavigateToPlanes }: ClientesTabProps) {
     <>
       {/* Vista principal: lista de alumnos */}
       <div className="reveal mx-auto max-w-4xl">
-        <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <h2 className="text-xl font-medium tracking-tight text-white">
+        <header className="mb-4 sm:mb-6 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-3">
+          <h2 className="text-lg sm:text-xl font-medium tracking-tight text-white">
             Mis Alumnos
           </h2>
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black shadow-[0_4px_20px_-5px_rgba(255,255,255,0.2)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_4px_28px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98]"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black shadow-[0_4px_20px_-5px_rgba(255,255,255,0.2)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_4px_28px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] touch-manipulation"
           >
             <Plus className="h-4 w-4" /> Crear Alumno
           </button>
         </header>
 
-        <div className="spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+        <div className="spotlight-card overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6">
           <div className="spotlight-content">
             {loadingLista ? (
               <p className="rounded-2xl border border-white/5 bg-white/2 px-4 py-3 text-sm text-white/40">
@@ -206,8 +206,8 @@ export function ClientesTab({ onNavigateToPlanes }: ClientesTabProps) {
             className="absolute inset-0 cursor-default"
             aria-label="Cerrar"
           />
-          <div className="relative z-10 w-full max-w-md">
-            <div className="spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+          <div className="relative z-10 w-full max-w-md mx-2 sm:mx-0">
+            <div className="spotlight-card overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6">
               <div className="spotlight-content">
                 <div className="mb-6 flex items-center justify-between">
                   <h3 className="text-xl font-medium tracking-tight text-white">
@@ -299,8 +299,8 @@ export function ClientesTab({ onNavigateToPlanes }: ClientesTabProps) {
             className="absolute inset-0 cursor-default"
             aria-label="Cerrar"
           />
-          <div className="relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[2.5rem] border border-white/10 bg-white/2 shadow-2xl [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
-            <div className="spotlight-card p-6">
+          <div className="relative z-10 w-full max-w-lg max-h-[85vh] sm:max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-[2.5rem] border border-white/10 bg-white/2 shadow-2xl [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 mx-2 sm:mx-0">
+            <div className="spotlight-card p-4 sm:p-6">
               <div className="spotlight-content">
                 {/* Header del modal */}
                 <div className="mb-6 flex items-start justify-between gap-4">

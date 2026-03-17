@@ -34,7 +34,7 @@ export default function AdminPage() {
 
   return (
     <AuraPageWrapper>
-      <div className="mx-auto min-w-0 max-w-2xl p-5 pb-24 md:pt-8 lg:max-w-4xl">
+      <div className="mx-auto min-w-0 max-w-2xl p-4 sm:p-5 pb-24 md:pt-8 lg:max-w-4xl safe-area-inset-left safe-area-inset-right">
         {/* Header */}
         <header className="reveal mb-8 flex items-center justify-between">
           <div>
@@ -53,8 +53,8 @@ export default function AdminPage() {
         </header>
 
         {/* Tabs */}
-        <div className="reveal delay-100 mb-8">
-          <div className="flex flex-wrap gap-3">
+        <div className="reveal delay-100 mb-6 sm:mb-8 -mx-4 sm:mx-0 px-4 sm:px-0">
+          <div className="flex gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {TAB_IDS.map((id) => {
               const isActive = tabActivo === id;
               return (
@@ -62,7 +62,7 @@ export default function AdminPage() {
                   key={id}
                   type="button"
                   onClick={() => setTabActivo(id)}
-                  className={`flex h-12 min-w-40 shrink-0 items-center justify-center gap-2 rounded-2xl border px-5 text-sm font-medium transition-all duration-200 ${
+                  className={`flex h-11 sm:h-12 min-w-0 shrink-0 items-center justify-center gap-1.5 sm:gap-2 rounded-2xl border px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 touch-manipulation whitespace-nowrap ${
                     isActive
                       ? "border-white/50 bg-white text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)]"
                       : "border-white/5 bg-white/5 text-white/50 hover:border-white/10 hover:bg-white/[0.07] hover:text-white/70"
@@ -97,10 +97,10 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-4 left-4 z-40">
+      <div className="fixed bottom-4 left-4 right-4 sm:right-auto z-40 flex justify-center sm:justify-start safe-area-inset-bottom safe-area-inset-left">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-lg font-light text-white/50 backdrop-blur-md transition-colors hover:border-white/20 hover:text-white"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 sm:px-5 py-3 text-sm sm:text-lg font-light text-white/50 backdrop-blur-md transition-colors hover:border-white/20 hover:text-white touch-manipulation"
         >
           ← Volver al inicio
         </Link>

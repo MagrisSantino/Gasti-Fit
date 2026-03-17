@@ -198,6 +198,20 @@ html.lenis,
 html.lenis body {
   overflow-x: hidden !important;
 }
+
+/* Safe area para móviles (notch, barra home) */
+.safe-area-inset-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.safe-area-inset-left {
+  padding-left: env(safe-area-inset-left, 0);
+}
+.safe-area-inset-right {
+  padding-right: env(safe-area-inset-right, 0);
+}
 .lenis.lenis-smooth {
   overflow: hidden;
 }

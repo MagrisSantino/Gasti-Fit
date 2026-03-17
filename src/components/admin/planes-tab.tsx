@@ -292,7 +292,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
   if (loadingData) {
     return (
-      <div className="reveal rounded-[2.5rem] border border-white/5 bg-white/2 p-10 text-center">
+      <div className="reveal rounded-2xl sm:rounded-[2.5rem] border border-white/5 bg-white/2 p-6 sm:p-10 text-center">
         <p className="text-white/50">Cargando alumnos y ejercicios...</p>
       </div>
     );
@@ -300,7 +300,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
   if (errorData) {
     return (
-      <div className="reveal spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+      <div className="reveal spotlight-card overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6">
         <div className="spotlight-content flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-200">
           <AlertCircle className="h-5 w-5 shrink-0" />
           <p>{errorData}</p>
@@ -310,7 +310,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       {/* Mensajes de éxito / error tras guardar */}
       {mensajeExito && (
         <div className="reveal flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-200">
@@ -326,12 +326,12 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
       )}
 
       {/* ── Datos generales ───────────────────────────────────────────────── */}
-      <div className="reveal spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+      <div className="reveal spotlight-card overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6">
         <div className="spotlight-content">
           <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/80">
             Plan
           </p>
-          <h2 className="mb-6 text-xl font-medium tracking-tight text-white">
+          <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl font-medium tracking-tight text-white">
             Datos generales del plan
           </h2>
 
@@ -378,19 +378,19 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
       {/* ── Gestión de días ───────────────────────────────────────────────── */}
       <div className="reveal delay-100">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-4 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-3 sm:gap-4">
           <div>
             <p className="mb-1 text-xs font-medium uppercase tracking-wide text-white/60">
               Estructura
             </p>
-            <h2 className="text-xl font-medium tracking-tight text-white">
+            <h2 className="text-lg sm:text-xl font-medium tracking-tight text-white">
               Días del plan
             </h2>
           </div>
           <button
             type="button"
             onClick={agregarDia}
-            className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black shadow-[0_4px_20px_-5px_rgba(255,255,255,0.2)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_4px_28px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98]"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 sm:px-6 py-3 text-sm font-medium text-black shadow-[0_4px_20px_-5px_rgba(255,255,255,0.2)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_4px_28px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] touch-manipulation"
           >
             <Plus className="h-4 w-4" /> Agregar Nuevo Día
           </button>
@@ -398,7 +398,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
         <div className="space-y-6">
           {days.length === 0 ? (
-            <div className="rounded-[2.5rem] border border-dashed border-white/10 bg-white/2 p-10 text-center">
+            <div className="rounded-2xl sm:rounded-[2.5rem] border border-dashed border-white/10 bg-white/2 p-6 sm:p-10 text-center">
               <Calendar className="mx-auto mb-3 h-10 w-10 text-white/20" />
               <p className="text-sm text-white/40">
                 Aún no hay días. Haz clic en &quot;Agregar Nuevo Día&quot; para
@@ -409,10 +409,10 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
             days.map((dia, index) => (
               <div
                 key={dia.id}
-                className="reveal spotlight-card overflow-hidden rounded-[2.5rem] border border-white/10 p-6"
+                className="reveal spotlight-card overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6"
               >
                 <div className="spotlight-content">
-                  <div className="mb-4 flex items-start justify-between gap-4">
+                  <div className="mb-4 flex flex-col sm:flex-row items-stretch sm:items-start justify-between gap-3 sm:gap-4">
                     <div className="min-w-0 flex-1 space-y-3">
                       <div>
                         <label className="mb-1.5 block text-xs font-medium text-white/60">
@@ -446,7 +446,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
                     <button
                       type="button"
                       onClick={() => eliminarDia(dia.id)}
-                      className="mt-8 shrink-0 rounded-xl p-2 text-white/40 transition-colors hover:bg-white/5 hover:text-red-400"
+                      className="mt-2 sm:mt-8 shrink-0 self-start sm:self-auto rounded-xl p-2.5 sm:p-2 text-white/40 transition-colors hover:bg-white/5 hover:text-red-400 touch-manipulation"
                       title="Eliminar día"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -455,17 +455,16 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
                   {/* Ejercicios del día */}
                   <div className="border-t border-white/5 pt-4">
-                    <div className="mb-3 flex items-center justify-between">
+                        <div className="mb-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
                       <span className="text-xs font-medium uppercase tracking-wide text-white/50">
                         Ejercicios
                       </span>
                       <button
                         type="button"
                         onClick={() => agregarEjercicio(dia.id)}
-                        className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/60 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white"
+                        className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/60 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white touch-manipulation"
                       >
-                        <Plus className="h-3.5 w-3.5" /> Agregar Ejercicio a este
-                        Día
+                        <Plus className="h-3.5 w-3.5 shrink-0" /> Agregar Ejercicio
                       </button>
                     </div>
 
@@ -481,9 +480,9 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
                         {dia.exercises.map((ej) => (
                           <li
                             key={ej.id}
-                            className="rounded-2xl border border-white/5 bg-white/3 p-4"
+                            className="rounded-xl sm:rounded-2xl border border-white/5 bg-white/3 p-3 sm:p-4"
                           >
-                            <div className="mb-3 flex items-start justify-between gap-2">
+                            <div className="mb-3 flex flex-col sm:flex-row sm:items-start justify-between gap-2">
                               <div className="min-w-0 flex-1">
                                 <label className="mb-1 block text-xs text-white/50">
                                   Ejercicio
@@ -524,7 +523,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
                                 onClick={() =>
                                   eliminarEjercicio(dia.id, ej.id)
                                 }
-                                className="shrink-0 rounded-xl p-2 text-white/30 transition-colors hover:bg-white/5 hover:text-red-400"
+                                className="shrink-0 self-start rounded-xl p-2.5 sm:p-2 text-white/30 transition-colors hover:bg-white/5 hover:text-red-400 touch-manipulation"
                                 title="Eliminar ejercicio"
                               >
                                 <Trash2 className="h-3.5 w-3.5" />
@@ -625,7 +624,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
       </div>
 
       {/* ── Botón guardar plan ─────────────────────────────────────────────── */}
-      <div className="reveal delay-200 flex justify-center pb-8">
+      <div className="reveal delay-200 flex justify-center pb-6 sm:pb-8">
         <button
           type="button"
           onClick={guardarPlan}
@@ -634,7 +633,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
             days.length === 0 ||
             !tituloPlan.trim()
           }
-          className="flex w-full max-w-lg items-center justify-center gap-3 rounded-full bg-white px-10 py-5 text-lg font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] disabled:scale-100 disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none"
+          className="flex w-full max-w-lg items-center justify-center gap-3 rounded-full bg-white px-6 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] disabled:scale-100 disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none touch-manipulation"
         >
           <Save className="h-6 w-6" />
           {guardando ? "Guardando..." : "GUARDAR PLAN COMPLETADO"}

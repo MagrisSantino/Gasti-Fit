@@ -370,7 +370,7 @@ export function BibliotecaTab() {
   return (
     <>
       {/* ── GRUPOS ─────────────────────────────────────────────────────────── */}
-      <div className="reveal spotlight-card min-w-0 overflow-hidden rounded-[2.5rem] border border-white/10 p-6">
+      <div className="reveal spotlight-card min-w-0 overflow-hidden rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-4 sm:p-6">
         <div className="spotlight-content">
           <div className="mb-4 flex items-center justify-between">
             <div>
@@ -649,7 +649,7 @@ export function BibliotecaTab() {
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={cerrarModal}
           />
-          <div className="relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[2.5rem] border border-white/10 bg-[#0c0c0c] p-6 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
+          <div className="relative z-10 max-h-[85vh] sm:max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl sm:rounded-[2.5rem] border border-white/10 bg-[#0c0c0c] p-4 sm:p-6 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.15)_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
             {/* Header modal */}
             <div className="mb-6 flex items-center justify-between">
               <h3 className="text-lg font-medium text-white">

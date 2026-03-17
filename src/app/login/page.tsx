@@ -56,10 +56,10 @@ export default function LoginPage() {
 
   return (
     <AuraPageWrapper>
-      <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="flex min-h-screen items-center justify-center px-4 py-8 sm:py-12 safe-area-inset-top safe-area-inset-bottom">
         <div className="w-full max-w-md">
           {/* Card: spotlight premium */}
-          <div className="reveal spotlight-card rounded-[2.5rem] border border-white/10 p-8 sm:p-10">
+          <div className="reveal spotlight-card rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-6 sm:p-10">
             <div className="spotlight-content mb-8 text-center">
               <h1 className="reveal delay-100 text-2xl font-medium tracking-tight text-white sm:text-3xl">
                 Iniciar sesión
@@ -135,7 +135,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="reveal delay-200 group flex w-full items-center justify-center gap-4 rounded-full bg-white px-10 py-5 text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:transform-none"
+                className="reveal delay-200 group flex w-full items-center justify-center gap-3 sm:gap-4 rounded-full bg-white px-6 sm:px-10 py-4 sm:py-5 text-base sm:text-xl font-medium text-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:transform-none touch-manipulation"
               >
                 {loading ? (
                   "Entrando..."

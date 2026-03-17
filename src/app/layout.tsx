@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     "Entrenamiento personalizado y adaptado a tus objetivos. Presencial y virtual. Profesor de Educación Física y Licenciado en Ciencias del Entrenamiento.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

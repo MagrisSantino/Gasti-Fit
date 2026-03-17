@@ -235,7 +235,7 @@ export default function DashboardPage() {
 
   return (
     <AuraPageWrapper className="pb-32">
-      <div className="mx-auto max-w-lg p-4 pb-24 sm:p-5 md:pt-8 lg:max-w-2xl">
+      <div className="mx-auto max-w-lg min-w-0 p-4 pb-24 sm:p-5 md:pt-8 lg:max-w-2xl safe-area-inset-left safe-area-inset-right">
         {/* Header */}
         <header className="reveal mb-6 flex items-center justify-between sm:mb-8">
           <div className="min-w-0">
@@ -449,12 +449,12 @@ export default function DashboardPage() {
 
         {/* FAB Finalizar */}
         {showWorkout && (
-          <div className="pointer-events-none fixed bottom-0 left-0 z-50 flex w-full justify-center bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent p-4 pb-6 sm:pb-8 md:pb-10">
+          <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex w-full justify-center bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent p-4 pb-6 sm:pb-8 md:pb-10 safe-area-inset-bottom">
             <button
               type="button"
               onClick={handleFinalizarEntrenamiento}
               disabled={!activePlan?.id}
-              className="reveal group pointer-events-auto mx-auto flex w-full max-w-lg items-center justify-center gap-3 rounded-full bg-white px-6 py-4 text-lg font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-30 sm:gap-4 sm:px-10 sm:py-5 sm:text-xl lg:max-w-2xl"
+              className="reveal group pointer-events-auto mx-auto flex w-full max-w-lg items-center justify-center gap-3 rounded-full bg-white px-4 py-4 text-base font-medium text-black shadow-[0_4px_30px_-5px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_40px_-5px_rgba(255,255,255,0.25)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-30 sm:gap-4 sm:px-10 sm:py-5 sm:text-xl lg:max-w-2xl touch-manipulation"
             >
               FINALIZAR ENTRENAMIENTO
               <ArrowRight

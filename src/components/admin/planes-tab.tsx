@@ -210,7 +210,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
       // 1. Insertar plan
       const { data: planData, error: errPlan } = await supabase
         .from("plans")
-        .insert({ user_id: userId, titulo_plan: tituloPlan.trim() })
+        .insert({ user_id: userId, titulo_plan: tituloPlan.trim() } as any)
         .select("id")
         .single();
 
@@ -232,7 +232,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
             titulo: dia.titulo.trim(),
             frecuencia: dia.frecuencia.trim(),
             orden: i,
-          })
+          } as any)
           .select("id")
           .single();
 
@@ -259,7 +259,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
             intensidad_omni: ej.intensidad_omni,
             tiempo_descanso: ej.tiempo_descanso.trim(),
             orden: j,
-          });
+          } as any);
 
           if (errEx) {
             setMensajeError(

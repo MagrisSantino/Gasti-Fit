@@ -9,7 +9,8 @@ function esRutaProtegida(pathname: string): boolean {
   );
 }
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+// 👇 ACÁ ESTÁ EL CAMBIO: cambiamos "middleware" por "proxy"
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(

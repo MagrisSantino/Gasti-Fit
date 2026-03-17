@@ -208,11 +208,13 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
 
     try {
       // 1. Insertar plan
-      const { data: planData, error: errPlan } = await supabase
+      const resPlan = await supabase
         .from("plans")
         .insert({ user_id: userId, titulo_plan: tituloPlan.trim() } as any)
         .select("id")
         .single();
+      const planData = resPlan.data as { id: string } | null;
+      const errPlan = resPlan.error;
 
       if (errPlan || !planData?.id) {
         setMensajeError(errPlan?.message ?? "No se pudo crear el plan.");
@@ -225,7 +227,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
       // 2. Insertar cada día y luego sus ejercicios
       for (let i = 0; i < days.length; i++) {
         const dia = days[i];
-        const { data: dayData, error: errDay } = await supabase
+        const resDay = await supabase
           .from("plan_days")
           .insert({
             plan_id: planId,
@@ -235,6 +237,8 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
           } as any)
           .select("id")
           .single();
+        const dayData = resDay.data as { id: string } | null;
+        const errDay = resDay.error;
 
         if (errDay || !dayData?.id) {
           setMensajeError(

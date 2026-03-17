@@ -442,7 +442,7 @@ export default function Home() {
           {content}
         </ReactLenis>
       ) : (
-        <div className="min-h-screen w-full overflow-x-hidden">
+        <div className="mobile-landing-scroll w-full">
           {content}
         </div>
       )}

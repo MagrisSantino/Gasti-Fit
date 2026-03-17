@@ -199,6 +199,15 @@ html.lenis body {
   overflow-x: hidden !important;
 }
 
+/* Contenedor de scroll en móvil (landing): altura fija + scroll táctil nativo */
+.mobile-landing-scroll {
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
 /* Safe area para móviles (notch, barra home) */
 .safe-area-inset-top {
   padding-top: env(safe-area-inset-top, 0);

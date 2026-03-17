@@ -92,7 +92,7 @@ export function PlanesTab({ preselectedClient }: PlanesTabProps) {
         return;
       }
 
-      const data = resUsers.data ?? [];
+      const data: any[] = resUsers.data ?? [];
       setAlumnos(data);
       setEjercicios(resExercises.data ?? []);
       // Respetar alumno preseleccionado si viene desde Mis Clientes; si no, usar el primero de la lista.
